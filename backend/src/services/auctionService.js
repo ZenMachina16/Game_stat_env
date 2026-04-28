@@ -199,8 +199,8 @@ async function resetAuction() {
   // Delete all dynamically created auction teams
   await Team.deleteMany({ isAuctionTeam: true });
 
-  // Reset all players (keep excludedFromAuction intentionally — admin manually set those)
-  await Player.updateMany({}, { isSold: false, isCaptain: false });
+    // Reset all players (keep excludedFromAuction intentionally — admin manually set those)
+    await Player.updateMany({}, { isSold: false, isCaptain: false });
 
   // Reset session
   const session = await getOrCreateSession();

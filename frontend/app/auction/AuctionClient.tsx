@@ -172,7 +172,7 @@ export default function AuctionClient() {
       apiFetch<TeamInfo[]>("/purses").then(setTeams).catch(() => {});
       apiFetch<PlayerInfo[]>("/unsold").then(setUnsoldPlayers).catch(() => {});
       // Refresh PINs for whoever is currently admin
-      fetch(`${API_URL}/auction/admin-teams?pin=${ADMIN_PIN}`)
+      fetch(`${API_URL}/auction/admin-teams?pin=${ADMIN_PIN}`, { cache: "no-store" })
         .then((r) => r.ok ? r.json() : []).then(setAdminTeamsWithPins).catch(() => {});
     });
     socket.on("player_update", (data: SessionState) => {
@@ -208,7 +208,9 @@ export default function AuctionClient() {
 
   const fetchAdminTeams = useCallback(async () => {
     try {
-      const r = await fetch(`${API_URL}/auction/admin-teams?pin=${ADMIN_PIN}`);
+      const r = await fetch(`${API_URL}/auction/admin-teams?pin=${ADMIN_PIN}`, {
+        cache: "no-store"
+      });
       if (r.ok) setAdminTeamsWithPins(await r.json());
     } catch { /* ignore */ }
   }, []);
@@ -540,6 +542,7 @@ export default function AuctionClient() {
                   </div>
                 </div>
               )}
+
               <div className="mt-4 flex flex-wrap gap-3">
                 {session?.status === "IDLE" && (
                   <button onClick={() => adminAction("/start")}
