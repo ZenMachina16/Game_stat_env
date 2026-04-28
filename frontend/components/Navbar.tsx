@@ -5,7 +5,8 @@ const navItems = [
   { href: "/", label: "Overview" },
   { href: "/matches", label: "Matches" },
   { href: "/players", label: "Players" },
-  { href: "/teams", label: "Teams" }
+  { href: "/teams", label: "Teams" },
+  { href: "/auction", label: "Auction" }
 ];
 
 export default function Navbar() {

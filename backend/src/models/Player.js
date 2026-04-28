@@ -10,6 +10,23 @@ const playerSchema = new mongoose.Schema(
     profileImage: {
       type: String,
       default: ""
+    },
+    role: {
+      type: String,
+      enum: ["batsman", "bowler", "allrounder"],
+      default: "allrounder"
+    },
+    basePrice: {
+      type: Number,
+      default: 100
+    },
+    isSold: {
+      type: Boolean,
+      default: false
+    },
+    isCaptain: {
+      type: Boolean,
+      default: false
     }
   },
   {

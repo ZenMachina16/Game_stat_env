@@ -7,6 +7,7 @@ const playerRoutes = require("./routes/playerRoutes");
 const playerStatsRoutes = require("./routes/playerStatsRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const tournamentRoutes = require("./routes/tournamentRoutes");
+const auctionRoutes = require("./routes/auctionRoutes");
 
 const app = express();
 
@@ -27,6 +28,10 @@ app.use("/api/players", playerRoutes);
 app.use("/api/player-stats", playerStatsRoutes);
 app.use("/api/teams", teamRoutes);
 app.use("/api/tournaments", tournamentRoutes);
+app.use("/api/auction", (req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+}, auctionRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
