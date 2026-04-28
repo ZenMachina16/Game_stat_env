@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 
 const matchRoutes = require("./routes/matchRoutes");
 const playerRoutes = require("./routes/playerRoutes");
@@ -18,6 +19,7 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/uploads", express.static(path.join(__dirname, "../../uploads")));
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });

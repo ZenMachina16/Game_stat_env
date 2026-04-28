@@ -1,6 +1,30 @@
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
 const Player = require("../models/Player");
 const PlayerStats = require("../models/PlayerStats");
 const escapeRegex = require("../utils/escapeRegex");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, "../../../uploads");
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase() || ".jpg";
+    cb(null, `player-${req.params.id}-${Date.now()}${ext}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"));
+  }
+}).single("photo");
 
 const getPlayers = async (req, res, next) => {
   try {
@@ -103,10 +127,31 @@ const deletePlayer = async (req, res, next) => {
   }
 };
 
+const uploadPhoto = (req, res, next) => {
+  upload(req, res, async (err) => {
+    if (err) return res.status(400).json({ message: err.message });
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+
+    try {
+      const imageUrl = `/uploads/${req.file.filename}`;
+      const player = await Player.findByIdAndUpdate(
+        req.params.id,
+        { profileImage: imageUrl },
+        { new: true }
+      );
+      if (!player) return res.status(404).json({ message: "Player not found" });
+      res.json(player);
+    } catch (error) {
+      next(error);
+    }
+  });
+};
+
 module.exports = {
   getPlayers,
   getPlayerByName,
   createPlayer,
   updatePlayer,
-  deletePlayer
+  deletePlayer,
+  uploadPhoto
 };
