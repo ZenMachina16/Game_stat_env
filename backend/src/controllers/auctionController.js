@@ -86,7 +86,30 @@ const getResults = async (req, res, next) => {
 
 const getUnsoldPlayers = async (req, res, next) => {
   try {
-    const players = await Player.find({ isSold: false }).lean();
+    const players = await Player.find({ isSold: false, excludedFromAuction: { $ne: true } })
+      .sort({ basePrice: -1 })
+      .lean();
+    res.json(players);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const toggleAuctionPool = async (req, res, next) => {
+  try {
+    const player = await Player.findById(req.params.id);
+    if (!player) return res.status(404).json({ message: "Player not found" });
+    player.excludedFromAuction = !player.excludedFromAuction;
+    await player.save();
+    res.json(player);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getAllPlayersAdmin = async (req, res, next) => {
+  try {
+    const players = await Player.find({}).sort({ basePrice: -1 }).lean();
     res.json(players);
   } catch (err) {
     next(err);
@@ -146,6 +169,8 @@ module.exports = {
   closeBid,
   getResults,
   getUnsoldPlayers,
+  toggleAuctionPool,
+  getAllPlayersAdmin,
   getTeamPurses,
   getAdminTeams,
   verifyCaptainPin

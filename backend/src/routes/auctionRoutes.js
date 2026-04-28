@@ -9,6 +9,8 @@ const {
   closeBid,
   getResults,
   getUnsoldPlayers,
+  toggleAuctionPool,
+  getAllPlayersAdmin,
   getTeamPurses,
   getAdminTeams,
   verifyCaptainPin
@@ -19,8 +21,10 @@ const router = express.Router();
 router.get("/status", getStatus);
 router.get("/results", getResults);
 router.get("/unsold", getUnsoldPlayers);
+router.get("/all-players", getAllPlayersAdmin);
 router.get("/purses", getTeamPurses);
 router.get("/admin-teams", getAdminTeams);
+router.patch("/pool/:id", toggleAuctionPool);
 
 router.post("/verify-captain", verifyCaptainPin);
 router.post("/start", startAuction);

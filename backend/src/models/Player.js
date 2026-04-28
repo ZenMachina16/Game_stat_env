@@ -27,6 +27,10 @@ const playerSchema = new mongoose.Schema(
     isCaptain: {
       type: Boolean,
       default: false
+    },
+    excludedFromAuction: {
+      type: Boolean,
+      default: false
     }
   },
   {
