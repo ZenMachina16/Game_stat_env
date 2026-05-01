@@ -1,33 +1,33 @@
-# F5 League Badlapur 2026 🏏
+# F5 League Badlapur 2026 
 
 A comprehensive, production-ready cricket tournament management system featuring a real-time live auction platform, player statistics tracking, match scorecards, and team management.
 
-## ✨ Key Features
+##  Key Features
 
-- **🔴 Real-Time Live Auction:**
+- ** Real-Time Live Auction:**
   - Powered by **Socket.IO** for instant bid updates, timers, and player transitions.
   - **Admin Panel:** Full control over the auction flow (Start, Select Captains, Select Players, Close Bids, Reset).
   - **Captain Dashboard:** Secure PIN-based login for team captains to place live bids.
   - **Dynamic Team Purses:** Auto-tracking of remaining budgets for each franchise (starts at ₹15,000).
-- **📊 Player Profiles & Stats:**
+- ** Player Profiles & Stats:**
   - Season-wise batting, bowling, and fielding breakdown.
   - Profile photo uploads (handled via Multer).
   - **Dynamic Base Pricing:** A custom Percentile-Ranked Normalized Scoring algorithm calculates a player's base price based on their performance relative to the league average.
-- **🏆 Match Scorecards:**
+- ** Match Scorecards:**
   - Detailed innings breakdown, fall of wickets, and match summaries.
-- **🛡️ Admin Management:**
+- **Admin Management:**
   - Add, edit, and delete players.
   - Include or exclude specific players from the auction pool.
   - Assign roles (Batsman, Bowler, Allrounder).
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Frontend:** Next.js 15 (App Router), React, Tailwind CSS, `next-themes` (Dark/Light mode), `socket.io-client`.
 - **Backend:** Node.js, Express.js, MongoDB (Mongoose), Socket.IO, Multer (File Uploads).
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Node.js (v18+)
@@ -84,7 +84,7 @@ Visit `http://localhost:3000` in your browser.
 
 ---
 
-## 🧮 Base Price Algorithm
+## Base Price Algorithm
 
 The base price for each player is dynamically calculated using a **Percentile-Ranked Normalized Scoring** algorithm. Instead of using raw numbers, this algorithm measures each player's performance *relative to the maximums achieved in the current player pool*.
 
@@ -104,7 +104,7 @@ node scripts/calculateBasePrices.js
 
 ---
 
-## 📡 API Endpoints
+##  API Endpoints
 
 **Public Data:**
 - `GET /api/matches` & `/api/matches/:id`
